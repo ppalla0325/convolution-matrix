@@ -1,28 +1,46 @@
 #include <iostream>
 #include <limits>
-#include <time.h>  
+#include <time.h>
+
 template <typename T> 
 class Matrix { 
 public:
 	///////////////////////////////////////
-	//Constructors and Destructors
+	//CONSTRUCTORS AND DESTRUCTORS
 	///////////////////////////////////////
 	Matrix(int rows, int columns);
 	~Matrix();
 
 	///////////////////////////////////////
-	//Getters
+	//GETTERS
 	///////////////////////////////////////
 	T * getMatrix(); 
 
 	///////////////////////////////////////
-	//Class specific methods
+	//MATRIX ACCESSORS AND MUTATORS
 	///////////////////////////////////////
 	T get(int row, int column);
 	void put(int row, int column, T data);
-	bool isEdge(int row, int column) const;
+
+	///////////////////////////////////////
+	//EDGE-CHECK CONDITIONS
+	///////////////////////////////////////
+	bool isEdge(int row, int column) const; // to be removed
+	bool topEdge(int row, int column) const;
+	bool bottomEdge(int row, int column) const;
+	bool leftEdge(int row, int column) const;
+	bool rightEdge(int row, int column) const;
+
+	///////////////////////////////////////
+	//MATRIX MIN/MAX FUNCTIONS
+	///////////////////////////////////////
 	T getMin() const;
 	T getMax() const;
+
+	///////////////////////////////////////
+	//MATRIX VISUALIZATION
+	///////////////////////////////////////
+	void printMatrix() const;
 
 private:
 	///////////////////////////////////////
@@ -53,7 +71,7 @@ private:
 };
 
 ///////////////////////////////////////
-//Constructors and Destructors
+//CONSTRUCTORS AND DESTRUCTORS
 ///////////////////////////////////////
 /**
 * Constructor
@@ -75,6 +93,9 @@ Matrix<T>::Matrix(int rows, int columns)
 	//dynamically allocate the internal array of size = row*column
 	int matrixSize = row*column;
 	this->matrix = new T[matrixSize];
+
+	//populate the matrix with random values between MIN_VALUE and MAX_VALUE of given data-type
+	fillRand();
 }
 
 /**
@@ -92,7 +113,7 @@ Matrix<T>::~Matrix()
 }
 
 ///////////////////////////////////////
-//Getters
+//GETTERS
 ///////////////////////////////////////
 /**
 * Description: Allows an outside access into the matrix array.
@@ -109,7 +130,7 @@ T * Matrix<T>::getMatrix()
 }
 
 ///////////////////////////////////////
-//Class specific methods
+//MATRIX ACCESSORS AND MUTATORS
 ///////////////////////////////////////
 /*
 * Description: insert the data into the appropriate mapped index into the matrix array
@@ -151,6 +172,9 @@ T Matrix<T>::get(int row, int column)
 	return matrix[mappedIndex];
 }
 
+///////////////////////////////////////
+//EDGE-CHECK CONDITIONS
+///////////////////////////////////////
 /*
 * Description: checks to see if the given row and index represent an "edge in the matrix array"
 * an "edge" is defined as any index in the "first and last" column AND "first and last" row
@@ -175,6 +199,89 @@ bool Matrix<T>::isEdge(int row, int column) const
 	return false; //none of the aforementioned indices
 }
 
+/*
+* Description: checks to see if the given row and index represent an "edge in the matrix array"
+* an "edge" is defined as any index in the "first and last" column AND "first and last" row
+* Implementation: checks to see if ROW is 0 which indicates an access from the "top row"
+* @Preconditions: NONE
+* @Postconditions: NONE
+* @params: int row, input row from user
+* @params: int column, input column from user
+* @returns: bool, indicates whether user is trying to access a "top-edge"
+*/
+template <typename T> 
+bool Matrix<T>::topEdge(int row, int column) const
+{
+	if(row == 0) // if the index being accessed is on the top-most row of the matrix
+	{
+		return true;
+	}
+	else false;
+}
+
+/*
+* Description: checks to see if the given row and index represent an "edge in the matrix array"
+* an "edge" is defined as any index in the "first and last" column AND "first and last" row
+* Implementation: checks to see if ROW is 'row-1' which indicates an access from the "bottom row"
+* @Preconditions: NONE
+* @Postconditions: NONE
+* @params: int row, input row from user
+* @params: int column, input column from user
+* @returns: bool, indicates whether user is trying to access an "bottom-edge"
+*/
+template <typename T> 
+bool Matrix<T>::bottomEdge(int row, int column) const
+{
+	if(row == this->row-1) // if the index being accessed is on the bottom-most row of the matrix
+	{
+		return true;
+	}
+	else false;
+}
+
+/*
+* Description: checks to see if the given row and index represent an "edge in the matrix array"
+* an "edge" is defined as any index in the "first and last" column AND "first and last" row
+* Implementation: checks to see if COLUMN is '0' which indicates an access from the "left-most column"
+* @Preconditions: NONE
+* @Postconditions: NONE
+* @params: int row, input row from user
+* @params: int column, input column from user
+* @returns: bool, indicates whether user is trying to access an "left-edge"
+*/
+template <typename T> 
+bool Matrix<T>::leftEdge(int row, int column) const
+{
+	if(column == 0) // if the index being accessed is on the left-most column of the matrix
+	{
+		return true;
+	}
+	else false;
+}
+
+/*
+* Description: checks to see if the given row and index represent an "edge in the matrix array"
+* an "edge" is defined as any index in the "first and last" column AND "first and last" row
+* Implementation: checks to see if COLUMN is 'column-1' which indicates an access from the "right-most column"
+* @Preconditions: NONE
+* @Postconditions: NONE
+* @params: int row, input row from user
+* @params: int column, input column from user
+* @returns: bool, indicates whether user is trying to access an "right-edge"
+*/
+template <typename T> 
+bool Matrix<T>::rightEdge(int row, int column) const
+{
+	if(column == this->column-1) // if the index being accessed is on the left-most column of the matrix
+	{
+		return true;
+	}
+	else false;
+}
+
+///////////////////////////////////////
+//MATRIX MIN/MAX FUNCTIONS
+///////////////////////////////////////
 /*
 * Description: Returns the minimum value in the matrix.
 * Implementation: loops through the matrix array and keeps track
@@ -255,11 +362,11 @@ int Matrix<T>::indexMap(int row, int column)
 		std::cout << "EXPECTED input row: " << row << " < " << this->row
 		<< " AND " << "input column: " << column << " < " << this->column << std::endl;
 
-		std::cout << "ERROR NUMBER: " << x;
+		std::cout << "ERROR NUMBER: " << x << std::endl;
 	}
 
 	//return the mapped index from user row and column input
-	return row*this->row + column;
+	return (row*this->column) + column;
 }
 
 /*
@@ -283,3 +390,32 @@ void Matrix<T>::fillRand()
 		matrix[i] = rand() % std::numeric_limits<T>::max();
  	}
 } 
+
+///////////////////////////////////////
+//MATRIX VISUALIZATION
+///////////////////////////////////////
+/**
+* Description: Prints to console the matrix in "Row x Column" form.
+* Implementation: Loops through the matrix array and prints each value in the index.
+* if the row length is reached, a newline is added to the console print.
+* Preconditions: NONE
+* Postconditions: NONE
+* @params NONE
+* @returns NONE
+*/
+template <typename T> 
+void Matrix<T>::printMatrix() const 
+{
+	for(int i = 0; i < row*column; i++)
+	{
+		if((i+1)%column == 0 && i!=0)//reached end of row length, 'print the value' and 'endline'
+		{
+			std::cout << +(matrix[i]) << std::endl;
+		}
+		else
+		{
+			std::cout << +(matrix[i]) << " ";
+		}
+
+	}
+}
