@@ -25,7 +25,6 @@ public:
 	///////////////////////////////////////
 	//EDGE-CHECK CONDITIONS
 	///////////////////////////////////////
-	bool isEdge(int row, int column) const; // to be removed
 	bool topEdge(int row, int column) const;
 	bool bottomEdge(int row, int column) const;
 	bool leftEdge(int row, int column) const;
@@ -175,31 +174,7 @@ T Matrix<T>::get(int row, int column)
 ///////////////////////////////////////
 //EDGE-CHECK CONDITIONS
 ///////////////////////////////////////
-/*
-* Description: checks to see if the given row and index represent an "edge in the matrix array"
-* an "edge" is defined as any index in the "first and last" column AND "first and last" row
-* Implementation: checks to see if row is 0 or this->row-1 OR column is 0 or this->column-1
-* @Preconditions: NONE
-* @Postconditions: NONE
-* @params: int row, input row from user
-* @params: int column, input column from user
-* @returns: bool, indicates whether user is trying to access an "edge"
-*/
-template <typename T> 
-bool Matrix<T>::isEdge(int row, int column) const
-{
-	//row == 0 -> topmost row of the matrix
-	//column == 0 -> leftmost column of the matrix
-	//row == this->row-1 -> bottommost row of the matrix
-	//columnn == this->column-1 -> rightmost column of the matrix
-	if(row == 0 || column == 0 || row == this->row-1 || column == this->column-1)
-	{
-		return true;
-	}
-	return false; //none of the aforementioned indices
-}
-
-/*
+/**
 * Description: checks to see if the given row and index represent an "edge in the matrix array"
 * an "edge" is defined as any index in the "first and last" column AND "first and last" row
 * Implementation: checks to see if ROW is 0 which indicates an access from the "top row"
@@ -219,7 +194,7 @@ bool Matrix<T>::topEdge(int row, int column) const
 	else false;
 }
 
-/*
+/**
 * Description: checks to see if the given row and index represent an "edge in the matrix array"
 * an "edge" is defined as any index in the "first and last" column AND "first and last" row
 * Implementation: checks to see if ROW is 'row-1' which indicates an access from the "bottom row"
@@ -239,7 +214,7 @@ bool Matrix<T>::bottomEdge(int row, int column) const
 	else false;
 }
 
-/*
+/**
 * Description: checks to see if the given row and index represent an "edge in the matrix array"
 * an "edge" is defined as any index in the "first and last" column AND "first and last" row
 * Implementation: checks to see if COLUMN is '0' which indicates an access from the "left-most column"
@@ -259,7 +234,7 @@ bool Matrix<T>::leftEdge(int row, int column) const
 	else false;
 }
 
-/*
+/**
 * Description: checks to see if the given row and index represent an "edge in the matrix array"
 * an "edge" is defined as any index in the "first and last" column AND "first and last" row
 * Implementation: checks to see if COLUMN is 'column-1' which indicates an access from the "right-most column"
@@ -282,7 +257,7 @@ bool Matrix<T>::rightEdge(int row, int column) const
 ///////////////////////////////////////
 //MATRIX MIN/MAX FUNCTIONS
 ///////////////////////////////////////
-/*
+/**
 * Description: Returns the minimum value in the matrix.
 * Implementation: loops through the matrix array and keeps track
 * of the "lowest found so far" value and returns that value in the end
@@ -306,7 +281,7 @@ T Matrix<T>::getMin() const
 	return lowestFoundSoFar;
 }
 
-/*
+/**
 * Description: Returns the maximum value in the matrix.
 * Implementation: loops through the matrix array and keeps track
 * of the "greatest found so far" value and returns that value in the end
@@ -333,7 +308,7 @@ T Matrix<T>::getMax() const
 /////////////////////////////////////////
 //PRIVATE HELPER METHODS
 /////////////////////////////////////////
-/*
+/**
 * Description: converts the row and column input to the correct corresponding index in the matrix array
 * Implementation: To calculate the index of the corresponding row and column query, 
 * we use the formula "index = row*this->row + column"
@@ -369,7 +344,7 @@ int Matrix<T>::indexMap(int row, int column)
 	return (row*this->column) + column;
 }
 
-/*
+/**
 * Description: Populates the matrix with random values of the data type
 * Implementation: Initialize a seed random variable and loop through the
 * max values of that particular data type
