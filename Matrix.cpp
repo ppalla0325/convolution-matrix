@@ -191,7 +191,7 @@ bool Matrix<T>::topEdge(int row, int column) const
 	{
 		return true;
 	}
-	else false;
+	else return false;
 }
 
 /**
@@ -207,11 +207,11 @@ bool Matrix<T>::topEdge(int row, int column) const
 template <typename T> 
 bool Matrix<T>::bottomEdge(int row, int column) const
 {
-	if(row == this->row-1) // if the index being accessed is on the bottom-most row of the matrix
+	if(row == (this->row-1)) // if the index being accessed is on the bottom-most row of the matrix
 	{
 		return true;
 	}
-	else false;
+	else return false;
 }
 
 /**
@@ -231,7 +231,7 @@ bool Matrix<T>::leftEdge(int row, int column) const
 	{
 		return true;
 	}
-	else false;
+	else return false;
 }
 
 /**
@@ -247,11 +247,11 @@ bool Matrix<T>::leftEdge(int row, int column) const
 template <typename T> 
 bool Matrix<T>::rightEdge(int row, int column) const
 {
-	if(column == this->column-1) // if the index being accessed is on the left-most column of the matrix
+	if(column == (this->column-1)) // if the index being accessed is on the right-most column of the matrix
 	{
 		return true;
 	}
-	else false;
+	else return false;
 }
 
 ///////////////////////////////////////
